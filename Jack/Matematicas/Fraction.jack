@@ -1,0 +1,61 @@
+class Fraction {
+    //atributes
+    field int numerador, denominador;
+
+    //Constructor
+    constructor Fraction new(int x, int y){
+        let numerador = x;
+        let denominador = y;
+        do reduce();
+        return this;
+    }
+
+    //Destructor 
+    method void dispose(){
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    //Methods 
+    method void reduce() {
+        var int g;
+        let g = fraction.mcd(numerador, denominador);
+        if(g > 1){
+            let numerador = numerador / g; 
+            let denominador = denominador / g; 
+        }
+        return; 
+    }
+
+    function int mcd(int num1, int num2){
+        var int r; 
+        while (~(num2 = 0)) {
+            let r = num1 - (num2 * (num1/num2));
+            let num1 = num2;
+            let num2 = r; 
+        }
+        return num1;
+    }
+
+    method int getNumerador () {
+        return numerador;
+    }
+
+    method int getDenominador () {
+        return denominador;
+    }
+
+    method Fraction plus(Fraction otro){
+        var int results; 
+        let results = (numerador * otro.getDenominador() + (otro.getNumerador()));
+        return Fraction.new(results, denominador*otro.getDenominador());
+    }
+
+    method void print(){
+        do Output.printInt(numerador);
+        do Output.printString(" / ");
+        do Output.printInt(denominador);
+        return;
+    }
+
+}// End of class fraction

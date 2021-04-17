@@ -1,0 +1,24 @@
+class Main {
+    function void main() {
+        //Definir variables 
+        var Array numeros;
+        var int length;
+        var int i, suma;
+
+        let length = Keyboard.readInt("Cuantos numeros?: ");
+        let numeros = Array.new(length);
+
+        //Ciclo
+        let i = 0;
+        while ( i < length) {
+            let numeros[i] = Keyboard.readInt("Ingrese numero: ");
+            let suma = suma + numeros[i];
+            let i = i + 1;
+        }
+
+        //Imprimir 
+        do Output.printString("El promedio es: ");
+        do Output.printInt(suma/length);
+        return;
+    }
+}
