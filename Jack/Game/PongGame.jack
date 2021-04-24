@@ -1,7 +1,8 @@
 class PongGame {
 
     static PongGame instance;    
-    field Bat bat;           
+    field Bat bat;   
+    field Bat2 bat2;        
     field Ball ball;        
     field int wall;      
     field boolean exit;    
@@ -9,12 +10,15 @@ class PongGame {
     field int lastWall;      
 
     field int batWidth;
+    field int bat2Width;
 
  
     constructor PongGame new() {
 	    do Screen.clearScreen();
         let batWidth = 50;  
+        let bat2Width = 50; 
         let bat = Bat.new(230, 229, batWidth, 7);
+        let bat2 = Bat2.new(230, 0, bat2Width, 7);
         let ball = Ball.new(253, 222, 0, 511, 0, 229);
         do ball.setDestination(400,0);
         do Screen.drawRectangle(0, 238, 511, 240);
@@ -32,6 +36,7 @@ class PongGame {
   
     method void dispose() {
         do bat.dispose();
+        do bat2.dispose();
 	    do ball.dispose();
         do Memory.deAlloc(this);
         return;
@@ -55,6 +60,7 @@ class PongGame {
             while ((key = 0) & (~exit)) {
                 let key = Keyboard.keyPressed();
                 do bat.move();
+                do bat2.move();
                 do moveBall();
                 do Sys.wait(50);
             }
@@ -62,14 +68,21 @@ class PongGame {
             if (key = 130) { do bat.setDirection(1); }
 	        else {
 	            if (key = 132) { do bat.setDirection(2); }
-		        else {
-                    if (key = 140) { let exit = true; }
-		        }
-            }
-
+                    else {
+                        if (key = 65) { do bat2.setDirection(1); }  
+                        else {
+                            if (key = 68) { do bat2.setDirection(2); }    
+                               else {
+                                    if (key = 140) { let exit = true; }
+                                }
+                            }
+                        }
+                    }
+              
             while ((~(key = 0)) & (~exit)) {
                 let key = Keyboard.keyPressed();
                 do bat.move();
+                do bat2.move();
                 do moveBall();
                 do Sys.wait(50);
             }
@@ -84,7 +97,7 @@ class PongGame {
     }
 
     method void moveBall() {
-        var int bouncingDirection, batLeft, batRight, ballLeft, ballRight;
+        var int bouncingDirection, batLeft, bat2Left, batRight, bat2Right, ballLeft, ballRight;
 
         let wall = ball.move();
 
@@ -93,19 +106,30 @@ class PongGame {
             let bouncingDirection = 0;
             let batLeft = bat.getLeft();
             let batRight = bat.getRight();
+            let bat2Left = bat2.getLeft();
+            let bat2Right = bat2.getRight();
             let ballLeft = ball.getLeft();
             let ballRight = ball.getRight();
-  
-            if (wall = 4) {
+  //Posible lugar de error  
+            if ((wall = 3) | (wall = 4)) {
                 let exit = (batLeft > ballRight) | (batRight < ballLeft);
+                let exit = (bat2Left > ballRight) | (bat2Right < ballLeft);
                 if (~exit) {
                     if (ballRight < (batLeft + 10)) { let bouncingDirection = -1; }
                     else {
                         if (ballLeft > (batRight - 10)) { let bouncingDirection = 1; }
+                    if (ballLeft > (bat2Right + 10)) { let bouncingDirection = -1; }
+                    else {
+                        if (ballLeft > (bat2Right - 10)) { let bouncingDirection = 1; }
+                        }  
                     }
-
+                
+                
+           
                     let batWidth = batWidth - 2;
-                    do bat.setWidth(batWidth);      
+                    let bat2Width = bat2Width - 2;
+                    do bat.setWidth(batWidth);
+                    do bat.setWidth(bat2Width);      
                     let score = score + 1;
                     do Output.moveCursor(22,7);
                     do Output.printInt(score);
