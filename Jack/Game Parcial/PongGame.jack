@@ -1,0 +1,195 @@
+class PongGame {
+
+    static PongGame instance;
+    field Bat bat;
+    field Bat2 bat2;
+    field Ball ball;
+    field int wall;
+    field boolean exit;
+    field boolean exit2;
+    field int score;
+    field int score2;
+    field int lastWall;
+
+    field int batWidth;
+    field int bat2Width;
+
+
+    constructor PongGame new() {
+        do Screen.clearScreen();
+        let batWidth = 50;
+        let bat2Width = 50;
+            let bat = Bat.new(230, 229, batWidth, 7);
+            let bat2 = Bat2.new(230, 0, bat2Width, 7);
+            let ball = Ball.new(253, 222, 0, 511, 0, 229);
+        do ball.setDestination(400,0);
+        do Screen.drawRectangle(0, 238, 511, 240);
+        do Screen.drawLine(509, 120, 0, 120);
+        do Output.moveCursor(22,0);
+        do Output.printString("Player1: 0");
+        do Output.moveCursor(22,50);
+        do Output.printString("Player2: 0");
+
+        let exit = false;
+        let score = 0;
+        let score2 = 0;
+        let wall = 0;
+        let lastWall = 0;
+
+        return this;
+    }
+
+    method void dispose() {
+        do bat.dispose();
+        do bat2.dispose();
+        do ball.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+
+    function void newInstance() {
+        let instance = PongGame.new();
+        return;
+    }
+
+
+    function PongGame getInstance() {
+        return instance;
+    }
+
+
+    method void run() {
+        var char key;
+
+        while (~exit & ~exit2) {
+            while ((key = 0) & (~exit) & (~exit2)) {
+                let key = Keyboard.keyPressed();
+                do bat.move();
+                do bat2.move();
+                do moveBall();
+                do Sys.wait(50);
+            }
+
+            if (key = 130) { do bat.setDirection(1); }
+            else {
+                if (key = 132) { do bat.setDirection(2); }
+                    else {
+                        if (key = 65) { do bat2.setDirection(1); }
+                        else {
+                            if (key = 68) { do bat2.setDirection(2); }
+                                else {
+                                    if (key = 140) { let exit = true; }
+                                }
+                            }
+                        }
+                    }
+
+            while ((~(key = 0)) & (~exit) & (~exit2)) {
+                let key = Keyboard.keyPressed();
+                do bat.move();
+                do bat2.move();
+                do moveBall();
+                do Sys.wait(50);
+                
+            }
+        }
+
+        if (exit) {
+            do bat.incSize();
+            let score = score + 1;
+            do Output.moveCursor(22,59);
+            do Output.printInt(score);
+            if((score > 5)){
+                do Output.moveCursor(10,27);
+                do Output.printString("Player2 Win");
+                return;
+            }
+            let exit = false;
+            do run();
+
+        }
+        if(exit2){
+            do bat2.incSize();
+            let score2 = score2 + 1;
+            do Output.moveCursor(22,9);
+            do Output.printInt(score2);
+            if((score2 > 5)){
+                do Output.moveCursor(10,27);
+                do Output.printString("Player1 Win");
+                return;
+            }
+            let exit2 = false;
+            do run();
+        }
+
+        return;
+    }
+
+
+    method void moveBall() {
+        var int bouncingDirection, batLeft, bat2Left, batRight, bat2Right, ballLeft, ballRight;
+
+        let wall = ball.move();
+
+        if ((wall > 0) & (~(wall = lastWall))) {
+            let lastWall = wall;
+            let bouncingDirection = 0;
+            let batLeft = bat.getLeft();
+            let batRight = bat.getRight();
+            let bat2Left = bat2.getLeft();
+            let bat2Right = bat2.getRight();
+            let ballLeft = ball.getLeft();
+            let ballRight = ball.getRight();
+            //Posible lugar de error
+
+            if(wall = 4){
+                let exit = (batLeft > ballRight) | (batRight < ballLeft);
+                if ((~exit)) {
+
+                    if (ballRight < (batLeft + 10)) {
+                        let bouncingDirection = -1;
+                    }else {
+                        if (ballLeft > (batRight - 10)) {
+                            let bouncingDirection = 1;
+                        }
+                    }
+
+                    let batWidth = batWidth - 2;
+                    do bat.setWidth(batWidth);
+                }
+            }
+
+            if (wall = 3) {
+                
+                let exit2 = (bat2Left > ballRight) | (bat2Right < ballLeft);
+                if(~exit2){
+
+                    if (ballLeft > (bat2Right + 10)) {
+                        let bouncingDirection = -1;
+                        }else {
+                            if (ballLeft > (bat2Right - 10)) {
+                                let bouncingDirection = 1;
+
+                            }
+                        }
+
+                    let bat2Width = bat2Width - 2;
+                    do bat2.setWidth(bat2Width);
+                }
+            }
+            do ball.bounce(bouncingDirection);
+        }
+        return;
+    }
+
+}
+
+
+
+
+
+
+
+
+
