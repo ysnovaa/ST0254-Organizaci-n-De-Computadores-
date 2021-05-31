@@ -1,0 +1,24 @@
+clase Main {
+    funcion void main() {
+        //Definir variables 
+        variable Array numeros;
+        variable int length;
+        variable int i, suma;
+
+        permite length = Keyboard.readInt("Cuantos numeros?: ");
+        permite numeros = Array.new(length);
+
+        //Ciclo
+        permite i = 0;
+        mientras ( i < length) {
+            permite numeros[i] = Keyboard.readInt("Ingrese numero: ");
+            permite suma = suma + numeros[i];
+            permite i = i + 1;
+        }
+
+        //Imprimir 
+        Sistema Output.printString("El promedio es: ");
+        Sistema Output.printInt(suma/length);
+        retorne;
+    }
+}

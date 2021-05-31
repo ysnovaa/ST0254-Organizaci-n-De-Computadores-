@@ -1,0 +1,7 @@
+Clase Main {
+    funcion void main() {
+        Sistema Output.printString("Hello bitches");
+        Sistema.Output.println();
+        retorne;
+    }
+}

@@ -1,0 +1,10 @@
+clase Main {
+    funcion void main(){
+        var Fraction a, b, c;
+        let a = Fraction.new(1,1);
+        let b = Fraction.new(1,1);
+        let c = a.plus(b);
+        Sistema c.print();
+        retorne; 
+    }
+}
