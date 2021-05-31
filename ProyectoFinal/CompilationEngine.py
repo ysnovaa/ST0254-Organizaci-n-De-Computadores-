@@ -16,18 +16,18 @@ binary_op_actions = {'+': 'add',
 label_count = 0
 
 class CompilationEngine:
-    '''A compilation engine for the Jyy programming language'''
+    #A compilation engine for the Jyy programming language#
 
     def __init__(self, tokenizer, ostream):
-        '''Initialize the compilation engine
-        @tokenizer the tokenizer from the input code file
-        @ostream the output stream to write the code to'''
+        #Initialize the compilation engine
+        #@tokenizer the tokenizer from the input code file
+        #@ostream the output stream to write the code to 
         self.tokenizer = tokenizer
         self.vm_writer = VMWriter.VMWriter(ostream)
 
     @staticmethod
     def get_label():
-        '''Return a label for use'''
+        #Return a label for use#
         global label_count
 
         label = 'L{}'.format(label_count)
@@ -36,7 +36,7 @@ class CompilationEngine:
         return label
 
     def compile_class(self):
-        '''Compile a class block'''
+        #Compile a class block#
         self.tokenizer.advance() # class
 
         # class name
@@ -51,7 +51,7 @@ class CompilationEngine:
         self.tokenizer.advance() # }
 
     def compile_class_vars(self, jyy_class):
-        '''Compile the class variable declarations'''
+        #Compile the class variable declarations#
         
         token = self.tokenizer.current_token()
         while token is not None and token.type == 'keyword' and\
@@ -82,7 +82,7 @@ class CompilationEngine:
             token = self.tokenizer.current_token()
 
     def compile_class_subroutines(self, jyy_class):
-        '''Compile the class subroutines'''
+        #Compile the class subroutines#
         
         token = self.tokenizer.current_token()
         while token is not None and token.type == 'keyword'\
@@ -111,7 +111,7 @@ class CompilationEngine:
             token = self.tokenizer.current_token()
 
     def compile_parameter_list(self, jyy_subroutine):
-        '''Compile a parameter list for a subroutine'''
+        #Compile a parameter list for a subroutine#
 
         token = self.tokenizer.current_token()
         # Check if the next token is a valid variable type
@@ -136,7 +136,7 @@ class CompilationEngine:
 
 
     def compile_subroutine_body(self, jyy_subroutine):
-        '''Compile the subroutine body'''
+        #Compile the subroutine body#
 
         self.tokenizer.advance() # {
 
@@ -159,7 +159,7 @@ class CompilationEngine:
         self.tokenizer.advance() # }
 
     def compile_subroutine_vars(self, jyy_subroutine):
-        '''Compile the variable declerations of a subroutine'''
+        #Compile the variable declerations of a subroutine#
 
         token = self.tokenizer.current_token()
         # Check that a variable declarations starts
@@ -181,7 +181,7 @@ class CompilationEngine:
             token = self.tokenizer.current_token()
 
     def compile_statements(self, jyy_subroutine):
-        '''Compile subroutine statements'''
+        #Compile subroutine statements#
 
         check_statements = True
         while check_statements:
@@ -201,7 +201,7 @@ class CompilationEngine:
                 check_statements = False
 
     def compile_statement_if(self, jyy_subroutine):
-        '''Compile the if statement'''
+        #Compile the if statement#
         self.tokenizer.advance() # if
         self.tokenizer.advance() # (
         
@@ -236,7 +236,7 @@ class CompilationEngine:
         self.vm_writer.write_label(end_label)
 
     def compile_statement_while(self, jyy_subroutine):
-        '''Compile the while statment'''
+        #Compile the while statment#
         self.tokenizer.advance() # while
         self.tokenizer.advance() # (
 
@@ -260,7 +260,7 @@ class CompilationEngine:
         self.tokenizer.advance() # }
 
     def compile_statement_let(self, jyy_subroutine):
-        '''Compile the let statment'''
+        #Compile the let statment#
 
         self.tokenizer.advance() # let
         var_name = self.tokenizer.advance().value # var name
@@ -291,7 +291,7 @@ class CompilationEngine:
         self.tokenizer.advance() # ;
 
     def compile_statement_do(self, jyy_subroutine):
-        '''Compile the do statment'''
+        #Compile the do statment#
         self.tokenizer.advance() # do
 
         self.compile_term(jyy_subroutine) # Do options are a subset of terms
@@ -300,7 +300,7 @@ class CompilationEngine:
         self.tokenizer.advance() # ;
 
     def compile_statement_return(self, jyy_subroutine):
-        '''Compile the return statment'''
+        #Compile the return statment#
         self.tokenizer.advance() # return
 
         # Check if an expression is given
@@ -314,7 +314,7 @@ class CompilationEngine:
         self.tokenizer.advance() # ;
 
     def compile_expression_list(self, jyy_subroutine):
-        '''Compile a subroutine call expression_list'''
+        #Compile a subroutine call expression_list#
         # Handle expression list, so long as there are expressions
         count = 0 # Count expressions
         token = self.tokenizer.current_token()
@@ -330,7 +330,7 @@ class CompilationEngine:
         return count
 
     def compile_expression(self, jyy_subroutine):
-        '''Compile an expression'''
+        #Compile an expression#
         self.compile_term(jyy_subroutine)
         
         token = self.tokenizer.current_token()
@@ -343,7 +343,7 @@ class CompilationEngine:
             token = self.tokenizer.current_token()
 
     def compile_term(self, jyy_subroutine):
-        '''Compile a term as part of an expression'''
+        #Compile a term as part of an expression#
 
         token = self.tokenizer.advance()
         # In case of unary operator, compile the term after the operator

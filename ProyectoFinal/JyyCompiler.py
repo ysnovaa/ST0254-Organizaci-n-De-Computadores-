@@ -4,8 +4,8 @@ import JyyTokenizer
 import CompilationEngine
 
 def compile_file(file_path):
-	'''Compile a file by its path, save the result to a file
-	with the same name and a vm suffix'''
+	#Compile a file by its path, save the result to a file
+	#with the same name and a vm suffix#
 		
 	with open(file_path, 'r') as ifile:
 		file_name = os.path.basename(file_path)
@@ -19,7 +19,7 @@ def compile_file(file_path):
 			compiler.compile_class()
 
 def compile_dir(dir_path):
-	'''Compile all Jyy files in a directory'''
+	#Compile all Jyy files in a directory#
 	for file in os.listdir(dir_path):
 		file_path = os.path.join(dir_path, file)
 		_, file_ext = os.path.splitext(file_path)
@@ -28,7 +28,7 @@ def compile_dir(dir_path):
 			compile_file(file_path)
 
 def main():
-	"""The main program, loading the file/files and calling the translator"""
+	#The main program, loading the file/files and calling the translator#
 	if len(sys.argv) < 2:
 		print('usage: JyyCompiler (file|dir)'.format(sys.argv[0]))
 		sys.exit(1)

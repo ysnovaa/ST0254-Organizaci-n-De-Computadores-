@@ -5,7 +5,7 @@ from collections import namedtuple
 Token = namedtuple('Token',('type', 'value'))
 
 class JyyTokenizer:
-	'''A tokenizer for the Jyy programming language'''
+	#A tokenizer for the Jyy programming language#
 
 	# The regular expressions for lexical elements in Jyy
 	RE_INTEGER ='\d+'
@@ -33,7 +33,7 @@ class JyyTokenizer:
 
 	@staticmethod
 	def remove_comments(file):
-		'''Remove the comments from a given Jyy file'''
+		#Remove the comments from a given Jyy file#
 
 		# Use non-greedy regex to avoid eating lines of code
 		uncommented = re.sub('//.*?\n', '\n', file)
@@ -41,13 +41,13 @@ class JyyTokenizer:
 		return uncommented
 
 	def __init__(self, file):
-		'''Initialize the tokenizer for a given file, provided as utf-8 encoded
-		python string'''
+		#Initialize the tokenizer for a given file, provided as utf-8 encoded
+		#python string#
 		self.code = JyyTokenizer.remove_comments(file)
 		self.tokens = self.tokenize()
 
 	def tokenize(self):
-		'''Tokenize the given input file without comments'''
+		#Tokenize the given input file without comments#
 		split_code = re.split(self.RE_SPLIT, self.code)
 		tokens = []
 
@@ -68,9 +68,9 @@ class JyyTokenizer:
 		return tokens
 
 	def current_token(self):
-		'''Return the current token, if not existent return None'''
+		#Return the current token, if not existent return None#
 		return self.tokens[0] if self.tokens else None
 
 	def advance(self):
-		'''Advance to the next token, return current token'''
+		#Advance to the next token, return current token#
 		return self.tokens.pop(0) if self.tokens else None
