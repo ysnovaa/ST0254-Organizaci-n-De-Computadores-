@@ -5,9 +5,9 @@ from collections import namedtuple
 Token = namedtuple('Token',('type', 'value'))
 
 class JyyTokenizer:
-	'''A tokenizer for the Jack programming language'''
+	'''A tokenizer for the Jyy programming language'''
 
-	# The regular expressions for lexical elements in Jack
+	# The regular expressions for lexical elements in Jyy
 	RE_INTEGER ='\d+'
 	RE_STRING = '"[^"]*"'
 	RE_IDENTIFIER = '[A-z_][A-z_\d]*'
@@ -33,7 +33,7 @@ class JyyTokenizer:
 
 	@staticmethod
 	def remove_comments(file):
-		'''Remove the comments from a given Jack file'''
+		'''Remove the comments from a given Jyy file'''
 
 		# Use non-greedy regex to avoid eating lines of code
 		uncommented = re.sub('//.*?\n', '\n', file)

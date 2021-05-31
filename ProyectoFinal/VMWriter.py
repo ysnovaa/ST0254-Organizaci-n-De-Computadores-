@@ -4,7 +4,7 @@ kind_to_segment = {'static': 'static',
                    'var': 'local'}
 
 class VMWriter:
-	'''A jack to VM writer, used by the compiler to output the code matching
+	'''A Jyy to VM writer, used by the compiler to output the code matching
 	to the analyzed code'''
 
 	def __init__(self, ostream):
@@ -26,12 +26,12 @@ class VMWriter:
 		'''Write a label in VM'''
 		self.ostream.write('label {}\n'.format(label))
 
-	def write_function(self, jack_subroutine):
-		'''Write a function header for a Jack subroutine'''
-		class_name = jack_subroutine.jack_class.name
-		name = jack_subroutine.name
-		local_vars = jack_subroutine.var_symbols
-		subroutine_type = jack_subroutine.subroutine_type
+	def write_function(self, jyy_subroutine):
+		'''Write a function header for a Jyy subroutine'''
+		class_name = jyy_subroutine.jyy_class.name
+		name = jyy_subroutine.name
+		local_vars = jyy_subroutine.var_symbols
+		subroutine_type = jyy_subroutine.subroutine_type
 
 		self.ostream.write('function {}.{} {}\n'.format(class_name, name, local_vars))
 
@@ -45,18 +45,18 @@ class VMWriter:
 				class_name, func_name, arg_count
 			))
 
-	def write_pop_symbol(self, jack_symbol):
+	def write_pop_symbol(self, jyy_symbol):
 		'''Pop the value in the top of the stack to the supplied symbol'''
-		kind = jack_symbol.kind
-		offset = jack_symbol.id # the offset in the segment
+		kind = jyy_symbol.kind
+		offset = jyy_symbol.id # the offset in the segment
 
 		segment = kind_to_segment[kind]
 		self.write_pop(segment, offset)
 
-	def write_push_symbol(self, jack_symbol):
+	def write_push_symbol(self, jyy_symbol):
 		'''Push the value from the symbol to the stack'''
-		kind = jack_symbol.kind
-		offset = jack_symbol.id # the offset in the segment
+		kind = jyy_symbol.kind
+		offset = jyy_symbol.id # the offset in the segment
 
 		segment = kind_to_segment[kind]
 		self.write_push(segment, offset)

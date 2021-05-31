@@ -19,12 +19,12 @@ def compile_file(file_path):
 			compiler.compile_class()
 
 def compile_dir(dir_path):
-	'''Compile all Jack files in a directory'''
+	'''Compile all Jyy files in a directory'''
 	for file in os.listdir(dir_path):
 		file_path = os.path.join(dir_path, file)
 		_, file_ext = os.path.splitext(file_path)
-		# Choose only jack files
-		if os.path.isfile(file_path) and file_ext.lower()=='.jack':
+		# Choose only jyy files
+		if os.path.isfile(file_path) and file_ext.lower()=='.jyy':
 			compile_file(file_path)
 
 def main():

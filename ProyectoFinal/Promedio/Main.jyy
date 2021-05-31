@@ -1,4 +1,4 @@
-clase Main {
+Clase Main {
     funcion void main() {
         //Definir variables 
         variable Array numeros;
